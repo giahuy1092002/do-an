@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import FarmexBody from './cores/FarmexBody';
+import FarmexFooter from './cores/FarmexFooter';
+import MissPassWord from './modules/Auth/MissPassWord';
+import Login from './modules/Auth/Login';
+import Register from './modules/Auth/Register';
+import { Route,Routes } from 'react-router-dom';
+import SpashPortal from './modules/Spash/SpashPortal';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route key='/' path='/' element={<SpashPortal />}>
+          <Route path="/" element={<>
+          <FarmexBody/>
+          <FarmexFooter/>
+          </>}></Route>
+          <Route path='/login' element={<Login/>}></Route>
+          <Route path='/register' element={<Register/>}></Route>
+          <Route path='/misspassword' element={<MissPassWord/>}></Route>
+      </Route>
+    </Routes>
   );
 }
 
