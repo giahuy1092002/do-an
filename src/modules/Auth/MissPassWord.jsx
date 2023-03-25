@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Input } from "antd";
 
 function MissPassWord() {
     return (
@@ -58,8 +59,8 @@ const FormItem = styled.div`
     flex-direction: column;
     margin-bottom: 30px;
 `;
-const FormInput = styled.input`
-    height: 30px !important;
+const FormInput = styled(Input)`
+    height: 48px !important;
     border-radius: 12px !important;
     border: 1px solid #d3d5db;
     font-size: 14px !important;
