@@ -10,6 +10,7 @@ function Login() {
         <div>
             <TitleContainer>
                 <CenterText>Đăng nhập</CenterText>
+                <CenterText>Nguyễn Lương Gia Huy</CenterText>
             </TitleContainer>
             <FormContainer>
                 <CustomForm>
