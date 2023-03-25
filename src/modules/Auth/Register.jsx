@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Input } from "antd";
 
-function Register(){
+function Register() {
     return (
         <div>
             <TitleContainer>
@@ -10,16 +11,20 @@ function Register(){
             <FormContainer>
                 <CustomForm>
                     <FormItem>
+                        <span><Text>*</Text>Số điện thoại</span>
+                        <FormInput placeholder="Nhập số điện thoại" />
+                    </FormItem>
+                    <FormItem>
                         <span><Text>*</Text>Email</span>
-                        <FormInput placeholder="Nhập email"/>
+                        <FormInput placeholder="Nhập email" />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Mật khẩu</span>
-                        <FormInput placeholder="Nhập mật khẩu"/>
+                        <FormInputPassWord placeholder="Nhập mật khẩu" />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Nhập lại mật khẩu</span>
-                        <FormInput placeholder="Nhập lại mật khẩu"/>
+                        <FormInputPassWord placeholder="Nhập lại mật khẩu" />
                     </FormItem>
                     <FormItem>
                         <FormButton>Đăng nhập</FormButton>
@@ -63,8 +68,16 @@ const FormItem = styled.div`
     flex-direction: column;
     margin-bottom: 30px;
 `;
-const FormInput = styled.input`
-    height: 30px !important;
+const FormInput = styled(Input)`
+    height: 48px !important;
+    border-radius: 12px !important;
+    border: 1px solid #d3d5db;
+    font-size: 14px !important;
+    margin-top:10px;
+    padding: 15px 10px;
+`;
+const FormInputPassWord = styled(Input.Password)`
+    height: 48px !important;
     border-radius: 12px !important;
     border: 1px solid #d3d5db;
     font-size: 14px !important;
