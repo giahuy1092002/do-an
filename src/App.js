@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import FarmexBody from './cores/FarmexBody';
 import FarmexFooter from './cores/FarmexFooter';
 import MissPassWord from './modules/Auth/MissPassWord';
@@ -5,6 +6,8 @@ import Login from './modules/Auth/Login';
 import Register from './modules/Auth/Register';
 import { Route,Routes } from 'react-router-dom';
 import SpashPortal from './modules/Spash/SpashPortal';
+import User from './modules/User/User'
+import Setup from './modules/User/Setup'
 
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
           <Route path='/login' element={<Login/>}></Route>
           <Route path='/register' element={<Register/>}></Route>
           <Route path='/misspassword' element={<MissPassWord/>}></Route>
+          <Route path='/setup' element={<Setup/>}></Route>
+          <Route path='/user' element={<User/>}></Route>
       </Route>
     </Routes>
   );
