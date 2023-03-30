@@ -1,5 +1,5 @@
 const string = {
-    HOME: 'Trang chủ',
+    HOME: 'Trang trại của tôi',
     CONTROL: 'Điều khiển',
     VIEW_STATISTICS: 'Xem thống kê',
     ESTABLISH: 'Thiết lập'

@@ -3,20 +3,28 @@ import FarmexFooter from './cores/FarmexFooter';
 import MissPassWord from './modules/Auth/MissPassWord';
 import Login from './modules/Auth/Login';
 import Register from './modules/Auth/Register';
-import { Route,Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import SpashPortal from './modules/Spash/SpashPortal';
+import Establish from './modules/Establish/Establish';
+import AddEquip from './modules/Establish/AddEquip';
 
 function App() {
   return (
     <Routes>
       <Route key='/' path='/' element={<SpashPortal />}>
-          <Route path="/" element={<>
-          <FarmexBody/>
-          <FarmexFooter/>
-          </>}></Route>
-          <Route path='/login' element={<Login/>}></Route>
-          <Route path='/register' element={<Register/>}></Route>
-          <Route path='/misspassword' element={<MissPassWord/>}></Route>
+        <Route path="/" element={
+          <>
+            <FarmexBody />
+            <FarmexFooter />
+          </>
+        }
+        >
+        </Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/register' element={<Register />}></Route>
+        <Route path='/misspassword' element={<MissPassWord />}></Route>
+        <Route path='/establish' element={<Establish />}></Route>
+        <Route path='/establish/add' element={<AddEquip/>}></Route>
       </Route>
     </Routes>
   );

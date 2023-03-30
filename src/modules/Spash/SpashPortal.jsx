@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import FarmexMenu from "../../cores/FarmexMenu";
 
-function SpashPortal(){
+function SpashPortal() {
     return (
         <>
-        <FarmexMenu/>
-        <Outlet/>
+            <FarmexMenu />
+            <Outlet />
         </>
     )
 }

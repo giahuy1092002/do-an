@@ -20,9 +20,11 @@ function FarmexMenu() {
                             height={120}
                             onClick={() => navigate(PATH.HOME)}
                         />
-                        <LogoText>
+                        <LogoText
+                        onClick={() => navigate(PATH.HOME)}
+                        >
                             Farmex
-                            <DotLogo/>
+                            <DotLogo />
                         </LogoText>
                     </LargeMenu>
                 </CenterContainer>
@@ -38,9 +40,29 @@ function FarmexMenu() {
                     ))}
 
                 </MenuContainer>
-                <Button
-                    onClick={() => navigate(PATH.LOGIN)}
-                >Đăng nhập</Button>
+                {localStorage.getItem('token') ? <div 
+                style={{
+                    display:'flex',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    paddingTop:'15px'
+                    }}>
+                        <img
+                        src="https://icons.veryicon.com/png/o/education-technology/test-website-linear-icon/user-147.png"
+                        alt=""
+                        width={'30px'}
+                        height={'30px'}
+                        // style={{paddingTop:'15px'}}
+                        />
+                        <p style={{marginLeft:'10px'}}>Hello, user</p>
+                </div>
+                    :
+                    <Button
+                        onClick={() => navigate(PATH.LOGIN)}
+                    >Đăng nhập
+                    </Button>
+                }
+
             </MenuBar>
         </TopContainer>
     )
@@ -115,6 +137,7 @@ const LogoText = styled.p`
     font-size:30px;
     color:#333;
     font-weight:600;
+    cursor: pointer;
 `;
 const MenuContainer = styled.div`
     display: flex;

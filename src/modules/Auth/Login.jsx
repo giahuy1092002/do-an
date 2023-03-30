@@ -1,40 +1,68 @@
+import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import { useState } from "react";
+import axios from "axios";
 
 function Login() {
-    const [username,setUserName]=useState('');
-    const [password,setPassWord]=useState('');
+    const navigate = useNavigate();
+    const [phone, setPhone] = useState('');
+    const [password, setPassWord] = useState('');
+    const login = async () => {
+
+        try {
+            // make axios post request
+            const res = await axios({
+                method: "post",
+                url: 'http://localhost:3100/user/login',
+                data: {
+                    phone: phone,
+                    password: password,
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            })
+            .then((res)=>{
+                console.log(res.data);
+                alert('Đăng nhập thành công');
+                localStorage.setItem('token',res.data.token);
+                navigate('/');
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
     return (
         <div>
             <TitleContainer>
                 <CenterText>Đăng nhập</CenterText>
-                <CenterText>Nguyễn Lương Gia Huy</CenterText>
             </TitleContainer>
             <FormContainer>
-                <CustomForm>
+                <CustomForm onSubmit={handleSubmit}>
                     <FormItem>
-                        <span> <Text>*</Text>Tên đăng nhập</span>
-                        <FormInput 
-                        placeholder="Nhập tên đăng nhập"
-                        type="text"
-                        onChange={(e)=>{setUserName(e.target.value)}}
+                        <span> <Text>*</Text>Số điện thoại</span>
+                        <FormInput
+                            placeholder="Nhập số điện thoại"
+                            type="text"
+                            onChange={(e) => { setPhone(e.target.value) }}
                         />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Mật khẩu</span>
-                        <FormInputPassWord 
-                        placeholder="Hãy nhập mật khẩu" 
-                        type="password"
-                        value={password}
-                        onChange={(e)=>{setPassWord(e.target.value)}}
+                        <FormInputPassWord
+                            placeholder="Hãy nhập mật khẩu"
+                            type="password"
+                            value={password}
+                            onChange={(e) => { setPassWord(e.target.value) }}
                         />
                     </FormItem>
 
-                    <span>Quên mật khẩu? <FormNote to='/misspassword'>Cài đặt lại mật khẩu</FormNote></span>
-                    <FormItem style={{marginTop:'20px'}}>
-                        <FormButton>Đăng nhập</FormButton>
+                    <span>Quên mật khẩu?<FormNote to='/misspassword'>Cài đặt lại mật khẩu</FormNote></span>
+                    <FormItem style={{ marginTop: '20px' }}>
+                        <FormButton type="submit" onClick={login}>Đăng nhập</FormButton>
                     </FormItem>
                     <span>Chưa có tài khoản? <FormNote to='/register'>Đăng ký</FormNote></span>
                 </CustomForm>
@@ -110,6 +138,7 @@ const CustomForm = styled.form`
 const FormNote = styled(Link)`
     color:#087F38;
     text-decoration:none;
+    margin-left:5px;
 `;
 const Text = styled.span`
     color: red;

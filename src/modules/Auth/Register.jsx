@@ -1,33 +1,88 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Input } from "antd";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 function Register() {
+
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassWord] = useState('');
+    const [rePassword, setRePassWord] = useState('');
+    const register = async () => {
+
+        try {
+            // make axios post request
+            const res = await axios({
+                method: "post",
+                url: 'http://localhost:3100/user/signin',
+                data:  {
+                    phone: phone,
+                    email: email,
+                    password: password,
+                    rePassword: rePassword,
+                    name: name
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            });
+            console.log({ name, phone, password, rePassword, email });
+            // console.log(res.data);
+        } catch (error) {
+            console.log({ name, phone, password, rePassword, email });
+            console.log(error.response.data);
+        }
+    }
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+    }
     return (
         <div>
             <TitleContainer>
                 <CenterText>Đăng ký</CenterText>
             </TitleContainer>
             <FormContainer>
-                <CustomForm>
+                <CustomForm onSubmit={handleSubmit} method="POST">
+                    <FormItem>
+                        <span><Text>*</Text>Họ và tên</span>
+                        <FormInput placeholder="Hãy nhập họ và tên" onChange={(e) => { setName(e.target.value) }}
+                            name="name"
+                            value={name}
+                        />
+                    </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Số điện thoại</span>
-                        <FormInput placeholder="Nhập số điện thoại" />
+                        <FormInput placeholder="Nhập số điện thoại" onChange={(e) => { setPhone(e.target.value) }}
+                            name="phone"
+                            value={phone}
+                        />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Email</span>
-                        <FormInput placeholder="Nhập email" />
+                        <FormInput placeholder="Nhập email" onChange={(e) => { setEmail(e.target.value) }}
+                            name="email"
+                            value={email}
+                        />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Mật khẩu</span>
-                        <FormInputPassWord placeholder="Nhập mật khẩu" />
+                        <FormInputPassWord placeholder="Nhập mật khẩu" onChange={(e) => { setPassWord(e.target.value) }}
+                            name="password"
+                            value={password}
+                        />
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Nhập lại mật khẩu</span>
-                        <FormInputPassWord placeholder="Nhập lại mật khẩu" />
+                        <FormInputPassWord placeholder="Nhập lại mật khẩu" onChange={(e) => { setRePassWord(e.target.value) }}
+                            name="rePassWord"
+                            value={rePassword}
+                        />
                     </FormItem>
                     <FormItem>
-                        <FormButton>Đăng nhập</FormButton>
+                        <FormButton type="submit" onClick={register}>Đăng ký</FormButton>
                     </FormItem>
                     <span>Đã có tài khoản? <FormNote to='/login'>Đăng nhập</FormNote></span>
                 </CustomForm>
