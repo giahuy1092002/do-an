@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FARMEX_BANNER } from "../constants/data";
 
 function FarmexBody(){
     return (

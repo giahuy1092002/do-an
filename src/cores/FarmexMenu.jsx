@@ -1,13 +1,29 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FARMEX_LOGO } from "../constants/data";
 import MENU from "../constants/menu";
 import PATH from "../constants/path";
+import { Menu, Dropdown } from 'antd';
+import {message} from 'antd';
 
 function FarmexMenu() {
     const pathname = useLocation();
     const navigate = useNavigate();
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        message.success('Đăng xuất thành công',1);
+    }
+    const menuUser = (
+        <Menu>
+            <Menu.Item>
+                <Link to='/user'>Thông tin cá nhân</Link>
+            </Menu.Item>
+            <Menu.Item>
+                <Link to='/login' onClick={handleLogOut}>Đăng xuất</Link>
+            </Menu.Item>
+        </Menu>
+    );
     return (
         <TopContainer>
             <MenuBar>
@@ -21,7 +37,7 @@ function FarmexMenu() {
                             onClick={() => navigate(PATH.HOME)}
                         />
                         <LogoText
-                        onClick={() => navigate(PATH.HOME)}
+                            onClick={() => navigate(PATH.HOME)}
                         >
                             Farmex
                             <DotLogo />
@@ -40,22 +56,25 @@ function FarmexMenu() {
                     ))}
 
                 </MenuContainer>
-                {localStorage.getItem('token') ? <div 
-                style={{
-                    display:'flex',
-                    justifyContent:'center',
-                    alignItems:'center',
-                    paddingTop:'15px'
-                    }}>
-                        <img
-                        src="https://icons.veryicon.com/png/o/education-technology/test-website-linear-icon/user-147.png"
-                        alt=""
-                        width={'30px'}
-                        height={'30px'}
-                        // style={{paddingTop:'15px'}}
-                        />
-                        <p style={{marginLeft:'10px'}}>Hello, user</p>
-                </div>
+                {localStorage.getItem('token') ?
+                    <Dropdown overlay={menuUser} placement="bottomLeft">
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingTop: '15px'
+                            }}>
+                            <img
+                                src="https://icons.veryicon.com/png/o/education-technology/test-website-linear-icon/user-147.png"
+                                alt=""
+                                width={'30px'}
+                                height={'30px'}
+                            // style={{paddingTop:'15px'}}
+                            />
+                            <p style={{ marginLeft: '10px' }}>Hello, user</p>
+                        </div>
+                    </Dropdown>
                     :
                     <Button
                         onClick={() => navigate(PATH.LOGIN)}

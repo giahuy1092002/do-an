@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import { useState } from "react";
 import axios from "axios";
+import {message} from 'antd';
 
 function Login() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ function Login() {
             })
             .then((res)=>{
                 console.log(res.data);
-                alert('Đăng nhập thành công');
+                message.success('Đăng nhập thành công',1)
                 localStorage.setItem('token',res.data.token);
                 navigate('/');
             })
@@ -60,7 +61,7 @@ function Login() {
                         />
                     </FormItem>
 
-                    <span>Quên mật khẩu?<FormNote to='/misspassword'>Cài đặt lại mật khẩu</FormNote></span>
+                    <span>Quên mật khẩu? <FormNote to='/misspassword'>Cài đặt lại mật khẩu</FormNote></span>
                     <FormItem style={{ marginTop: '20px' }}>
                         <FormButton type="submit" onClick={login}>Đăng nhập</FormButton>
                     </FormItem>
@@ -137,8 +138,7 @@ const CustomForm = styled.form`
 `;
 const FormNote = styled(Link)`
     color:#087F38;
-    text-decoration:none;
-    margin-left:5px;
+    text-decoration: none;
 `;
 const Text = styled.span`
     color: red;
