@@ -1,7 +1,49 @@
 import styled from "styled-components";
 import { Input } from "antd";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
 function MissPassWord() {
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            phone: "",
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .required("Hãy nhập địa chỉ email")
+                .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                    "Email không hợp lệ"
+                ),
+            phone: Yup.string()
+                .required("Hãy nhập số điện thoại")
+                .matches(
+                    /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+                    "Số điện thoại không hợp lệ"
+                ),
+        }),
+        onSubmit: (values) => {
+            console.log(values);
+        },
+    });
+    const forgetPassword = async () => {
+        try {
+            // make axios post request
+            const res = await axios({
+                method: "post",
+                url: `http://localhost:3001/user/forgetPassword`,
+                data: {
+                    email: formik.values.email,
+                    phone: formik.values.phone,
+                },
+                headers: { 'content-type': 'application/x-www-form-urlencoded' }
+            });
+            return res.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
     return (
         <div>
             <TitleContainer>
@@ -14,10 +56,56 @@ function MissPassWord() {
                     </FormItem>
                     <FormItem>
                         <span><Text>*</Text>Email</span>
-                        <FormInput placeholder="Nhập email" />
+                        <FormInput placeholder="Nhập email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            id="email"
+                        />
                     </FormItem>
-                    <FormItem style={{ marginTop: '20px' }}>
-                        <FormButton>Gửi</FormButton>
+                    <div style={{position: "relative" }}>
+                        {formik.errors.email && (
+                            <p
+                                style={{
+                                    marginLeft: '5px',
+                                    color: "#ff4d4f",
+                                    fontSize: "14px",
+                                    position: "absolute",
+                                    bottom: "-10px",
+                                    left: "0",
+                                }}
+                            >
+                                {" "}
+                                {formik.errors.email}{" "}
+                            </p>
+                        )}
+                    </div>
+                    <FormItem>
+                        <span><Text>*</Text>Số điện thoại</span>
+                        <FormInput placeholder="Nhập email"
+                            value={formik.values.phone}
+                            onChange={formik.handleChange}
+                            id="phone"
+                        />
+                    </FormItem>
+                    <div style={{position: "relative" }}>
+                        {formik.errors.phone && (
+                            <p
+                                style={{
+                                    marginLeft: '5px',
+                                    color: "#ff4d4f",
+                                    fontSize: "14px",
+                                    position: "absolute",
+                                    bottom: "-10px",
+                                    left: "0",
+                                }}
+                            >
+                                {" "}
+                                {formik.errors.phone}{" "}
+                            </p>
+                        )}
+                    </div>
+                    <FormItem>
+                        <FormButton onClick={forgetPassword}>Gửi</FormButton>
                     </FormItem>
                 </CustomForm>
 
@@ -57,7 +145,7 @@ const FormContainer = styled.div`
 const FormItem = styled.div`
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 `;
 const FormInput = styled(Input)`
     height: 48px !important;
@@ -65,7 +153,7 @@ const FormInput = styled(Input)`
     border: 1px solid #d3d5db;
     font-size: 14px !important;
     margin-top:10px;
-    padding: 15px 10px;
+    padding: 12px 10px;
 `;
 const FormButton = styled.button`
     border-radius: 16px !important;

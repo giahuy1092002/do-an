@@ -7,10 +7,6 @@ const MENU = [
         link: PATH.HOME,
     },
     {
-        title: string.CONTROL,
-        link: PATH.CONTROL,
-    },
-    {
         title: string.VIEW_STATISTICS,
         link: PATH.VIEW_STATISTICS,
     },
@@ -18,6 +14,10 @@ const MENU = [
         title: string.ESTABLISH,
         link: PATH.ESTABLISH
     },
+    {
+        title: string.MANAGE,
+        link: PATH.MANAGE
+    }
 ]
 
 export default MENU;
