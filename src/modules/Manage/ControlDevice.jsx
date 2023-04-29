@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Modal, Button, Input, Table, message } from 'antd';
+import { Modal, Button, Input, Table, message, Switch } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function ControlDevice() {
     const [listEquip, setListEquip] = useState([]);
@@ -13,6 +14,7 @@ function ControlDevice() {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [file, setFile] = useState({});
+    const navigate = useNavigate();
     const deleteControlEquip = async (id) => {
         try {
             // make axios post request
@@ -23,12 +25,12 @@ function ControlDevice() {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 }
             })
-            .then(res=>{
-                message.success("Xóa thiết bị thành công",1);
-            })
-            .catch(err=>{
-                message.error("Xóa thiết bị thất bại",1);
-            })
+                .then(res => {
+                    message.success("Xóa thiết bị thành công", 1);
+                })
+                .catch(err => {
+                    message.error("Xóa thiết bị thất bại", 1);
+                })
             return res.data;
         } catch (error) {
             return error.response.data;
@@ -51,6 +53,21 @@ function ControlDevice() {
     const handleCancel1 = () => {
         setIsModalOpen1(false);
     };
+    const handleSwitchChange = async (checked, record) => {
+        try {
+            // make axios post request
+            await axios({
+                method: "patch",
+                url: `http://localhost:3001/device/setStatusControlEquip/${record.id}/${checked ? 1 : 0}`,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+        } catch (error) {
+            return error.response.data;
+        }
+    }
     const columns = [
         {
             title: 'Id',
@@ -66,17 +83,27 @@ function ControlDevice() {
             render: (text) => <img style={{ width: '50px', height: '50px' }} src={text} alt="" />,
         },
         {
+            title: 'Status',
+            dataIndex: 'status',
+            render: (status, record) => (
+                <Switch
+                    defaultChecked={status}
+                    onChange={(checked) => handleSwitchChange(checked, record)}
+                />
+            ),
+        },
+        {
             title: '',
             key: 'action',
             render: (record) => (
                 <>
                     <Button onClick={showModal1} style={{ color: '#fff', backgroundColor: 'red' }}>Xóa</Button>
-                    <Modal 
-                    style={{marginTop:'50px'}}
-                    title="Xóa thiết bị" 
-                    open={isModalOpen1}
-                    onOk={()=>deleteControlEquip(record.id)}
-                    onCancel={handleCancel1}>
+                    <Modal
+                        style={{ marginTop: '50px' }}
+                        title="Xóa thiết bị"
+                        open={isModalOpen1}
+                        onOk={() => deleteControlEquip(record.id)}
+                        onCancel={handleCancel1}>
                         <p>Bạn có muốn xóa thiết bị này hay không?</p>
                     </Modal>
                 </>
@@ -84,16 +111,16 @@ function ControlDevice() {
             ),
         },
         {
-            title: '',
+            title: 'Action',
             key: 'action',
-            render: () => (
+            render: (record) => (
                 <>
-                    <Button
-                        style={{ color: '#fff', backgroundColor: 'rgb(53, 120, 229)' }}>Chỉnh sửa</Button>
+                    <Button onClick={()=>navigate(`control${record.id}`)} style={{ color: '#fff', backgroundColor: 'rgb(53, 120, 229)' }}>Chỉnh sửa</Button>
                 </>
 
             ),
-        }
+        },
+
     ];
     const addControlEquip = async () => {
         try {
@@ -112,12 +139,12 @@ function ControlDevice() {
                     "Content-Type": "multipart/form-data"
                 }
             })
-            .then(res=>{
-                message.success("Thêm thiết bị thành công",1);
-            })
-            .catch(err=>{
-                message.error("Thêm thiết bị thất bại",1);
-            })
+                .then(res => {
+                    message.success("Thêm thiết bị thành công", 1);
+                })
+                .catch(err => {
+                    message.error("Thêm thiết bị thất bại", 1);
+                })
             return res.data;
         } catch (error) {
             return error.response.data;
@@ -125,7 +152,7 @@ function ControlDevice() {
     }
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios({
+            await axios({
                 method: "get",
                 url: `http://localhost:3001/device/getControlEquipsByFarm/${farm_id}`,
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -145,7 +172,7 @@ function ControlDevice() {
                     Thêm thiết bị
                 </AddButton>
             </div>
-            <Modal title="Thêm thiết bị" open={isModalOpen} onOk={addControlEquip} onCancel={handleCancel} style={{marginTop:'50px'}}>
+            <Modal title="Thêm thiết bị" open={isModalOpen} onOk={addControlEquip} onCancel={handleCancel} style={{ marginTop: '50px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '90%' }}>
                     <label>Id</label>
                     <ModalInput onChange={(e) => setId(e.target.value)} />

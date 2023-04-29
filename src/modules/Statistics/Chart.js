@@ -30,29 +30,11 @@ function Chart() {
         const fetchData = async () => {
             const res = await axios({
                 method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v1/data/chart?start_time=2023-04-16T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
+                url: `http://localhost:3001/data/get/v1`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((res) => {
-                    setTemp(res.data.data[res.data.data.length - 1][1]);
-                    return res.data;
-                })
-                .catch(error => {
-                    console.log(error.message)
-                })
-
-        }
-        fetchData();
-    }, []);
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios({
-                method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v1/data/chart?start_time=2023-04-16T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
-            })
-                .then((res) => {
-                    setTemp(res.data.data[res.data.data.length - 1][1]);
+                    setTemp(res.data[res.data.length - 1].data);
                     return res.data;
                 })
                 .catch(error => {
@@ -67,11 +49,11 @@ function Chart() {
         const fetchData = async () => {
             const res = await axios({
                 method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v2/data/chart?start_time=2023-03-20T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
+                url: `http://localhost:3001/data/get/v2`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((res) => {
-                    setAir(res.data.data[res.data.data.length - 1][1]);
+                    setAir(res.data[res.data.length - 1].data);
                     return res.data;
                 })
                 .catch(error => {
@@ -86,11 +68,11 @@ function Chart() {
         const fetchData = async () => {
             const res = await axios({
                 method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v3/data/chart?start_time=2023-03-20T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
+                url: `http://localhost:3001/data/get/v3`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((res) => {
-                    setLand(res.data.data[res.data.data.length - 1][1]);
+                    setLand(res.data[res.data.length - 1].data);
                     return res.data;
                 })
                 .catch(error => {
@@ -106,11 +88,11 @@ function Chart() {
         const fetchData = async () => {
             const res = await axios({
                 method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v4/data/chart?start_time=2023-03-20T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
+                url: `http://localhost:3001/data/get/v4`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((res) => {
-                    setLight(res.data.data[res.data.data.length - 1][1]);
+                    setLight(res.data[res.datalength - 1].data);
                     return res.data;
                 })
                 .catch(error => {
@@ -171,23 +153,6 @@ export default Chart;
 const Container = styled.div`
     postion: relative;
     margin-left: 10%;
-`;
-const DataContainer = styled.div`
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    position: relative;
-`;
-const CurrentData = styled.div`
-    border-radius: 50%;
-    border: 4px solid;
-    width: 200px;
-    height: 200px;
-    position: relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 `;
 const Select = styled.select`
     border-radius: 4px;

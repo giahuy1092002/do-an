@@ -133,12 +133,6 @@ const Button = styled.button`
     cursor: pointer;
     width:120px;
 `;
-const ImageUser = styled.img`
-    width: 40px;
-    height: 40px;
-    border: 1px solid #333;
-    border-radius: 50%;
-`;
 const DotLogo = styled.span`
     height: 5px;
     width: 5px;

@@ -13,7 +13,7 @@ function MissPassWord() {
         validationSchema: Yup.object({
             email: Yup.string()
                 .required("Hãy nhập địa chỉ email")
-                .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                .matches(/^\w+([.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                     "Email không hợp lệ"
                 ),
             phone: Yup.string()

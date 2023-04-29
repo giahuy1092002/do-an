@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-import FarmexMenu from "../../cores/FarmexMenu";
 import FarmexFooter from "../../cores/FarmexFooter";
 import NavBar from "../../cores/NavBar";
 

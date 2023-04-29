@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Input} from 'antd';
 import DataDevice from './DataDevice';
 import ControlDevice from './ControlDevice';
 

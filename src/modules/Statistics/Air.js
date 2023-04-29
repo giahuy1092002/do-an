@@ -11,7 +11,6 @@ import {
     AreaChartOutlined,
     DatabaseOutlined
 } from '@ant-design/icons';
-import annotationPlugin from 'chartjs-plugin-annotation';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -30,15 +29,14 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
-    annotationPlugin
 );
 function Temp() {
     const [dataIOT, setDataIOT] = useState([]);
     const [dataChart, setDataChart] = useState([]);
     const [open, setOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [min,setMin]=useState(0);
-    const [max,setMax]=useState(0);
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(0);
     const options = {
         responsive: true,
         plugins: {
@@ -71,7 +69,7 @@ function Temp() {
                 display: false,
             },
         },
-    
+
     };
     useEffect(() => {
         const fetchData = async () => {
@@ -97,15 +95,16 @@ function Temp() {
         const fetchData = async () => {
             const res = await axios({
                 method: "get",
-                url: `https://io.adafruit.com/api/v2/lequoctrang4/feeds/v2/data/chart?start_time=2023-04-16T10:00:00Z`,
-                headers: { "X-AIO-Key": `aio_upeC98c5kvS1o8yhByDkq4e8adj4` },
+                url: `http://localhost:3001/data/get/v2`,
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             })
                 .then((res) => {
-                    setDataIOT(res.data.data.map((x) => ([
-                        new Date(x[0]).toLocaleString(),
-                        x[1]
-                    ])));
-                    setDataChart(res.data.data);
+                    setDataIOT(res.data.map(obj => (
+                        [new Date(obj.time).toLocaleString(), obj.data]
+                    )));
+                    setDataChart(res.data.map(obj => (
+                        [new Date(obj.time).toLocaleString(), obj.data]
+                    )));
                     return res.data;
                 })
                 .catch(error => {
@@ -119,9 +118,6 @@ function Temp() {
         setIsModalOpen(true);
     };
 
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -133,9 +129,16 @@ function Temp() {
         value: x[1]
     }));
     const exportLocal = () => {
-        const fileName = 'localData';
+        const fileName = 'AirData';
         const exportType = exportFromJSON.types.csv;
-        exportFromJSON({ dataObject, fileName, exportType })
+        const data = dataIOT.map((e) => (
+            {
+                time: new Date(e[0]).toLocaleString(),
+                value: e[1]
+            }
+
+        ))
+        exportFromJSON({ data, fileName, exportType })
     }
     const data = {
         datasets: [
@@ -181,12 +184,10 @@ function Temp() {
                 open && (<FilterData dataIOT={dataIOT} setDataChart={setDataChart} setOpen={setOpen} />)
             }
             <Modal title="Tải dữ liệu tử cảm biến ánh sáng" open={isModalOpen}
+                onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>
                         Cancel
-                    </Button>,
-                    <Button key="submit" type="primary" onClick={handleOk}>
-                        Ok
                     </Button>,
                     <Button type="primary"
                         onClick={exportLocal}
@@ -194,6 +195,7 @@ function Temp() {
                         Tải file csv
                     </Button>,
                 ]}
+                style={{marginTop:'50px'}}
             >
                 <span>
                     <span style={{ fontWeight: '500' }}>Note:</span>
@@ -201,7 +203,7 @@ function Temp() {
                 </span>
             </Modal>
             <div style={{ width: '80%', marginBottom: '30px' }}>
-                <h2 > <AreaChartOutlined/> Biểu đồ dữ liệu cảm biến độ ẩm không khí</h2>
+                <h2 > <AreaChartOutlined /> Biểu đồ dữ liệu cảm biến độ ẩm không khí</h2>
                 <Line options={options} data={data} style={{ height: '1000px' }} />
             </div>
             <h2> <DatabaseOutlined /> Bảng số liệu dữ liệu thô</h2>
